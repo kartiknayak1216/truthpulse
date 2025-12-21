@@ -571,7 +571,7 @@ Example: 'Tech founder who posts about hiking and trying to figure life out'"
               Add a photo for AI visual analysis
             </p>
             <p className="text-lg text-gray-400 mb-2">Optional but highly recommended</p>
-            <p className="text-sm text-gray-500">Gemini AI will analyze your visual vibe</p>
+            <p className="text-sm text-gray-500">AI will analyze your visual vibe</p>
           </div>
 
           <div className="space-y-6">
