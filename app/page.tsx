@@ -477,7 +477,7 @@ export default function FirstImpressionApp() {
             <div className="inline-flex items-center gap-4 mb-8">
               <div className="flex items-center gap-2">
                 <Brain size={18} className="text-cyan-500" />
-                <span className="text-gray-300">Gemini AI Analysis</span>
+                <span className="text-gray-300"> AI Analysis</span>
               </div>
               <div className="w-1 h-1 bg-gray-600 rounded-full"></div>
               <div className="flex items-center gap-2">
@@ -532,7 +532,7 @@ Example: 'Tech founder who posts about hiking and trying to figure life out'"
             </button>
 
             <p className="text-center text-gray-500 text-sm">
-              Powered by Gemini AI · No signup · Your secrets are safe
+              No signup · Your secrets are safe
             </p>
           </div>
 
