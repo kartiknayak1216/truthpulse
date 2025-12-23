@@ -202,160 +202,282 @@ export default function FirstImpressionApp() {
 
   // Generate share card
   const generateShareCard = async (): Promise<Blob | null> => {
-    if (!result) return null;
+  if (!result) return null;
 
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return null;
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return null;
 
-    canvas.width = 1080;
-    canvas.height = 1920;
+  canvas.width = 1080;
+  canvas.height = 1920;
 
-    // Background
-    const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    bgGradient.addColorStop(0, '#000000');
-    bgGradient.addColorStop(0.5, '#1a0a2e');
-    bgGradient.addColorStop(1, '#000000');
-    ctx.fillStyle = bgGradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  // Professional dark gradient background
+  const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+  bgGradient.addColorStop(0, '#0a0a0f');
+  bgGradient.addColorStop(0.5, '#12121f');
+  bgGradient.addColorStop(1, '#0a0a0f');
+  ctx.fillStyle = bgGradient;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Header
-    ctx.fillStyle = '#fbbf24';
-    ctx.font = 'bold 52px -apple-system, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('🧠 PSYCHOLOGICAL VIBE CHECK', canvas.width / 2, 120);
+  // Professional header section
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '700 56px Inter, -apple-system, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('PSYCHOLOGICAL VIBE CHECK', canvas.width / 2, 140);
 
-    // Viral hook
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 40px -apple-system, sans-serif';
-    const wrapText = (text: string, x: number, y: number, maxWidth: number, lineHeight: number) => {
-      const words = text.split(' ');
-      let line = '';
-      let currentY = y;
+  // Professional viral hook
+  ctx.fillStyle = '#22d3ee';
+  ctx.font = '500 36px Inter, -apple-system, sans-serif';
+  const wrapText = (text: string, x: number, y: number, maxWidth: number, lineHeight: number) => {
+    const words = text.split(' ');
+    let line = '';
+    let currentY = y;
 
-      for (let word of words) {
-        const testLine = line + word + ' ';
-        const metrics = ctx.measureText(testLine);
-        if (metrics.width > maxWidth && line !== '') {
-          ctx.fillText(line, x, currentY);
-          line = word + ' ';
-          currentY += lineHeight;
-        } else {
-          line = testLine;
-        }
+    for (let word of words) {
+      const testLine = line + word + ' ';
+      const metrics = ctx.measureText(testLine);
+      if (metrics.width > maxWidth && line !== '') {
+        ctx.fillText(line, x, currentY);
+        line = word + ' ';
+        currentY += lineHeight;
+      } else {
+        line = testLine;
       }
-      ctx.fillText(line, x, currentY);
-      return currentY + lineHeight;
-    };
-
-    let yPos = wrapText(result.viralHook, canvas.width / 2, 200, 900, 55);
-
-    // Content box
-    const boxY = yPos + 40;
-    const boxHeight = 950;
-
-    ctx.shadowColor = '#8b5cf6';
-    ctx.shadowBlur = 60;
-    ctx.fillStyle = 'rgba(15, 15, 20, 0.95)';
-    ctx.fillRect(60, boxY, canvas.width - 120, boxHeight);
-    ctx.shadowBlur = 0;
-
-    const borderGradient = ctx.createLinearGradient(60, boxY, canvas.width - 60, boxY);
-    borderGradient.addColorStop(0, '#ef4444');
-    borderGradient.addColorStop(0.5, '#8b5cf6');
-    borderGradient.addColorStop(1, '#06b6d4');
-    ctx.strokeStyle = borderGradient;
-    ctx.lineWidth = 6;
-    ctx.strokeRect(60, boxY, canvas.width - 120, boxHeight);
-
-    // Harsh truths
-    yPos = boxY + 100;
-    ctx.textAlign = 'center';
-    
-    const harshLines = [result.harsh1, result.harsh2, result.harsh3, result.harsh4];
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 42px -apple-system, sans-serif';
-    
-    harshLines.forEach((line, index) => {
-      if (index > 0) {
-        yPos += 25;
-        ctx.fillStyle = 'rgba(139, 92, 246, 0.3)';
-        ctx.fillRect(canvas.width / 2 - 100, yPos, 200, 2);
-        yPos += 35;
-      }
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 42px -apple-system, sans-serif';
-      yPos = wrapText(line, canvas.width / 2, yPos, 880, 58);
-    });
-
-    // Positive reveal
-    if (isRevealed) {
-      yPos += 50;
-      ctx.fillStyle = '#10b981';
-      ctx.fillRect(200, yPos, canvas.width - 400, 4);
-      yPos += 60;
-
-      ctx.fillStyle = '#10b981';
-      ctx.font = 'bold 44px -apple-system, sans-serif';
-      ctx.fillText('✓ HIDDEN TRUTH:', canvas.width / 2, yPos);
-      
-      yPos += 70;
-      ctx.fillStyle = '#a7f3d0';
-      ctx.font = 'bold 46px -apple-system, sans-serif';
-      wrapText(result.positive.toUpperCase(), canvas.width / 2, yPos, 880, 60);
     }
-
-    // CTA section
-    const ctaY = canvas.height - 420;
-    
-    const ctaGradient = ctx.createLinearGradient(0, ctaY, 0, canvas.height);
-    ctaGradient.addColorStop(0, 'rgba(139, 92, 246, 0.15)');
-    ctaGradient.addColorStop(1, 'rgba(6, 182, 212, 0.15)');
-    ctx.fillStyle = ctaGradient;
-    ctx.fillRect(0, ctaY, canvas.width, 420);
-
-    const accentGradient = ctx.createLinearGradient(0, ctaY, canvas.width, ctaY);
-    accentGradient.addColorStop(0, '#ef4444');
-    accentGradient.addColorStop(0.5, '#8b5cf6');
-    accentGradient.addColorStop(1, '#06b6d4');
-    ctx.fillStyle = accentGradient;
-    ctx.fillRect(0, ctaY, canvas.width, 6);
-
-    yPos = ctaY + 90;
-    ctx.fillStyle = '#fbbf24';
-    ctx.font = 'bold 58px -apple-system, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('🤔 WHAT DO PEOPLE', canvas.width / 2, yPos);
-    yPos += 70;
-    ctx.fillText('REALLY THINK OF YOU?', canvas.width / 2, yPos);
-
-    yPos += 100;
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 46px -apple-system, sans-serif';
-    ctx.fillText('Find out in 8 seconds:', canvas.width / 2, yPos);
-
-    yPos += 80;
-    
-    // URL box
-    const urlBox = { x: canvas.width / 2 - 220, y: yPos - 60, width: 440, height: 85 };
-    ctx.shadowColor = '#06b6d4';
-    ctx.shadowBlur = 40;
-    ctx.fillStyle = 'rgba(6, 182, 212, 0.2)';
-    ctx.fillRect(urlBox.x, urlBox.y, urlBox.width, urlBox.height);
-    ctx.shadowBlur = 0;
-    ctx.strokeStyle = '#22d3ee';
-    ctx.lineWidth = 4;
-    ctx.strokeRect(urlBox.x, urlBox.y, urlBox.width, urlBox.height);
-    ctx.fillStyle = '#22d3ee';
-    ctx.font = 'bold 60px -apple-system, sans-serif';
-    ctx.fillText(DOMAIN, canvas.width / 2, yPos + 5);
-
-    // Convert to JPEG blob
-    return new Promise<Blob | null>((resolve) => {
-      canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.95);
-    });
+    ctx.fillText(line, x, currentY);
+    return currentY + lineHeight;
   };
 
+  let yPos = wrapText(result.viralHook, canvas.width / 2, 220, 900, 50);
+
+  // Professional separator line
+  yPos += 40;
+  ctx.strokeStyle = 'rgba(139, 92, 246, 0.3)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(80, yPos);
+  ctx.lineTo(canvas.width - 80, yPos);
+  ctx.stroke();
+  yPos += 60;
+
+  // Professional truths container
+  const truthContainerY = yPos;
+  const truthContainerHeight = 750;
+
+  // Container background with subtle gradient
+  const containerGradient = ctx.createLinearGradient(60, truthContainerY, canvas.width - 60, truthContainerY + truthContainerHeight);
+  containerGradient.addColorStop(0, 'rgba(255, 255, 255, 0.03)');
+  containerGradient.addColorStop(1, 'rgba(255, 255, 255, 0.01)');
+  ctx.fillStyle = containerGradient;
+  ctx.fillRect(60, truthContainerY, canvas.width - 120, truthContainerHeight);
+
+  // Container border
+  ctx.strokeStyle = 'rgba(139, 92, 246, 0.2)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(60, truthContainerY, canvas.width - 120, truthContainerHeight);
+
+  // Harsh truths - PROFESSIONAL TYPOGRAPHY
+  yPos = truthContainerY + 100;
+  ctx.textAlign = 'center';
+  
+  const harshLines = [result.harsh1, result.harsh2, result.harsh3, result.harsh4];
+  const truthIcons = ['⚫', '⚫', '⚫', '⚫'];
+  
+  harshLines.forEach((line, index) => {
+    // Truth item container
+    const itemY = yPos;
+    
+    // Icon
+    ctx.fillStyle = '#8b5cf6';
+    ctx.font = '32px Inter, -apple-system, sans-serif';
+    ctx.fillText(truthIcons[index], canvas.width / 2 - 360, itemY);
+    
+    // Text with perfect alignment
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '500 36px Inter, -apple-system, sans-serif';
+    ctx.textAlign = 'left';
+    const textX = canvas.width / 2 - 320;
+    const lineY = wrapText(line, textX, itemY, 700, 45);
+    
+    // Separator line (except after last item)
+    if (index < harshLines.length - 1) {
+      ctx.strokeStyle = 'rgba(139, 92, 246, 0.15)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(120, lineY + 20);
+      ctx.lineTo(canvas.width - 120, lineY + 20);
+      ctx.stroke();
+      yPos = lineY + 60;
+    } else {
+      yPos = lineY + 30;
+    }
+    
+    ctx.textAlign = 'center';
+  });
+
+  // ALWAYS SHOW HIDDEN TRUTH SECTION (NO CONDITIONAL LOGIC)
+  yPos += 40;
+  
+  // Professional divider
+  ctx.strokeStyle = 'rgba(16, 185, 129, 0.3)';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(canvas.width / 2 - 100, yPos);
+  ctx.lineTo(canvas.width / 2 + 100, yPos);
+  ctx.stroke();
+  yPos += 40;
+
+  // Hidden truth label
+  ctx.fillStyle = '#10b981';
+  ctx.font = '600 32px Inter, -apple-system, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('HIDDEN TRUTH •', canvas.width / 2, yPos);
+  yPos += 50;
+
+  // Positive text with professional styling (ALWAYS SHOW)
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '700 44px Inter, -apple-system, sans-serif';
+  const positiveY = wrapText(result.positive.toUpperCase(), canvas.width / 2, yPos, 900, 55);
+  yPos = positiveY + 40;
+
+  // PROFESSIONAL QR CODE SECTION
+  const qrSectionY = yPos + 60;
+  
+  // Section divider
+  ctx.strokeStyle = 'rgba(34, 211, 238, 0.3)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(80, qrSectionY);
+  ctx.lineTo(canvas.width - 80, qrSectionY);
+  ctx.stroke();
+
+  // QR section title
+  const qrTitleY = qrSectionY + 80;
+  ctx.fillStyle = '#fbbf24';
+  ctx.font = '700 48px Inter, -apple-system, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('SCAN FOR YOUR ANALYSIS', canvas.width / 2, qrTitleY);
+
+  // QR section subtitle
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+  ctx.font = '400 30px Inter, -apple-system, sans-serif';
+  ctx.fillText('Discover your psychological profile', canvas.width / 2, qrTitleY + 60);
+
+  return new Promise<Blob | null>((resolve) => {
+    const qrImage = new Image();
+    qrImage.crossOrigin = 'anonymous';
+    qrImage.onload = () => {
+      // EXTREMELY PROFESSIONAL QR POSITIONING
+      const qrSize = 300; // Perfect size for scanning
+      const qrX = canvas.width / 2 - qrSize / 2;
+      const qrY = qrTitleY + 120;
+      
+      // Professional QR container with perfect alignment
+      const containerPadding = 20;
+      const containerX = qrX - containerPadding;
+      const containerY = qrY - containerPadding;
+      const containerSize = qrSize + (containerPadding * 2);
+      
+      // Clean white background
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(containerX, containerY, containerSize, containerSize);
+      
+      // Professional subtle shadow
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+      ctx.shadowBlur = 20;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 5;
+      ctx.fillRect(containerX, containerY, containerSize, containerSize);
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetY = 0;
+      
+      // Draw QR code perfectly centered
+      ctx.drawImage(qrImage, qrX, qrY, qrSize, qrSize);
+      
+      // Ultra-professional border
+      ctx.strokeStyle = 'rgba(34, 211, 238, 0.8)';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(containerX, containerY, containerSize, containerSize);
+      
+      // Professional corner accents
+      const cornerLength = 20;
+      const cornerWidth = 3;
+      
+      ctx.strokeStyle = '#8b5cf6';
+      ctx.lineWidth = cornerWidth;
+      
+      // Top-left corner
+      ctx.beginPath();
+      ctx.moveTo(containerX, containerY + cornerLength);
+      ctx.lineTo(containerX, containerY);
+      ctx.lineTo(containerX + cornerLength, containerY);
+      ctx.stroke();
+      
+      // Top-right corner
+      ctx.beginPath();
+      ctx.moveTo(containerX + containerSize - cornerLength, containerY);
+      ctx.lineTo(containerX + containerSize, containerY);
+      ctx.lineTo(containerX + containerSize, containerY + cornerLength);
+      ctx.stroke();
+      
+      // Bottom-left corner
+      ctx.beginPath();
+      ctx.moveTo(containerX, containerY + containerSize - cornerLength);
+      ctx.lineTo(containerX, containerY + containerSize);
+      ctx.lineTo(containerX + cornerLength, containerY + containerSize);
+      ctx.stroke();
+      
+      // Bottom-right corner
+      ctx.beginPath();
+      ctx.moveTo(containerX + containerSize - cornerLength, containerY + containerSize);
+      ctx.lineTo(containerX + containerSize, containerY + containerSize);
+      ctx.lineTo(containerX + containerSize, containerY + containerSize - cornerLength);
+      ctx.stroke();
+
+      // Professional instruction text
+      const instructionY = containerY + containerSize + 50;
+      
+      // First line
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '600 34px Inter, -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Scan QR Code', canvas.width / 2, instructionY);
+      
+      // Second line
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      ctx.font = '400 28px Inter, -apple-system, sans-serif';
+      ctx.fillText('AI-Powered Psychological Analysis', canvas.width / 2, instructionY + 45);
+      
+      // Professional footer
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+      ctx.font = '300 24px Inter, -apple-system, sans-serif';
+      ctx.fillText('100% Confidential • Instant Results', canvas.width / 2, instructionY + 100);
+
+      // Convert to HIGH QUALITY JPEG
+      canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 1.0);
+    };
+    
+    qrImage.onerror = () => {
+      console.error('Failed to load QR code image');
+      // Professional fallback
+      const fallbackY = qrTitleY + 120;
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '500 32px Inter, -apple-system, sans-serif';
+      ctx.fillText('Visit for analysis:', canvas.width / 2, fallbackY);
+      
+      ctx.fillStyle = '#22d3ee';
+      ctx.font = '600 42px Inter, -apple-system, sans-serif';
+      ctx.fillText(DOMAIN, canvas.width / 2, fallbackY + 70);
+      
+      canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 1.0);
+    };
+    
+    // Load QR code
+    qrImage.src = '/scanner.png';
+  });
+};
+
+ 
   // Download function
   const handleDownload = async () => {
     const blob = await generateShareCard();
