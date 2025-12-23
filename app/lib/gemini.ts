@@ -73,30 +73,28 @@ export async function analyzeVibe(text: string, photos: File[] = []) {
 
     const prompt = `
 ROLE: You are an brutally honest, high-status social strategist. You have zero "AI filter."
-CONTEXT: A stranger has just read the following self-description from a user. 
+CONTEXT: You meet someone. This is all you know about them: "${text}"
+${hasPhoto ? 'PHOTO STATUS: You can see their face. Include visual judgments.' : 'PHOTO STATUS: You cannot see them. They are hiding.'}
 
-USER INPUT: "${text}"
-${hasPhoto ? 'PHOTO STATUS: User provided a photo. Include visual assumptions.' : 'PHOTO STATUS: No photo. Assume they are hiding something.'}
-
-TASK: Tell the user exactly what people assume about their LIFE and PERSONALITY based on that input. 
+TASK: Give the brutal truth about what everyone secretly thinks of THIS PERSON.
 
 STRICT RULES:
-1. NEVER mention "the bio," "the text," "writing style," or "grammar." 
-2. Talk to the user as "YOU." (e.g., "You seem like...")
-3. Be cynical. Be raw. Be the voice of a judgmental stranger at a party.
-4. Focus on CLASS, ENERGY, and SOCIAL STATUS.
-5. STRICT MAX 5 WORDS PER LINE.
+1. DO NOT COMMENT ON THE TEXT. DO NOT MENTION WORDS, WRITING, OR GRAMMAR.
+2. JUDGE THE PERSON, NOT THE DESCRIPTION.
+3. Talk directly: "You seem like..." "People assume you..."
+4. Be cynical. Be raw. Judgment from a stranger at a party.
+5. Focus on CLASS, ENERGY, and SOCIAL STATUS.
+6. STRICT MAX 5 WORDS PER LINE.
 
 OUTPUT JSON:
 {
-  "firstImpression": "The gut-level snap judgment",
-  "assumption": "What people think your house/life looks like",
-  "silentJudgment": "The mean thing they whisper to friends",
-  "whatPeopleLike": "The one thing that makes you magnetic",
-  "hurtingImage": "The specific thing killing your 'vibe'"
+  "firstImpression": "Instant 3-second judgment",
+  "assumption": "Their actual daily life",
+  "silentJudgment": "Private mean thoughts",
+  "whatPeopleLike": "One redeeming quality",
+  "hurtingImage": "Their social weakness"
 }
 `;
-
     const content: any[] = [prompt];
 
     if (hasPhoto) {
